@@ -1,0 +1,9 @@
+{
+  "ext": "ts,js",
+  "watch": ["src"],
+  "ignore": [],
+  "exec": "node src/app.js",
+  "events": {
+    "start": "clear #printf '\\033[2J\\033[3J\\033[1;1H' # remove `clear #` to delete scroll buffer"
+  }
+}
