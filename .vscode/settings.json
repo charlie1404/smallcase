@@ -1,0 +1,15 @@
+{
+  "eslint.validate": ["javascript", "typescript"],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "editor.rulers": [100],
+  "files.associations": {
+    "tslint*.json": "jsonc"
+  }
+}

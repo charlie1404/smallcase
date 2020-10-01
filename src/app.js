@@ -1,9 +1,6 @@
-require('dotenv').config();
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const httpStatus = require('http-status');
-const mongoose = require('mongoose');
 
 const config = require('./config');
 const logger = require('./config/winston');
@@ -12,19 +9,11 @@ const routes = require('./routes');
 
 const app = express();
 
-// handle mongoose odm connect errors in seperate file later
-mongoose.connect(config.mongoUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  keepAlive: true,
-});
-
 app.set('port', config.port);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// mount all routes on /api path
-app.use('/api', routes);
+app.use('/', routes);
 
 // if error is not an instanceOf APIError, convert it. (preserve stack trace)
 app.use((err, req, res, next) => {
@@ -60,5 +49,4 @@ app.use((err, req, res, _next) => {
   }
 });
 
-// eslint-disable-next-line no-console
-app.listen(config.port, () => console.log(`Server started on port ${config.port}`));
+module.exports = app;

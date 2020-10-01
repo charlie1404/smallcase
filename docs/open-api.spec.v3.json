@@ -1,0 +1,337 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Smallcase virtual stock trading API",
+    "version": "1.0",
+    "description": "Smallcase virtual stock trading API",
+    "contact": {
+      "name": "Shailendra Gupta",
+      "url": "https://charlieweb.tk"
+    }
+  },
+  "tags": [
+    {
+      "name": "smallcase"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.charlieweb.tk",
+      "description": "API Server"
+    }
+  ],
+  "paths": {
+    "/trades/buy": {
+      "post": {
+        "tags": ["smallcase"],
+        "summary": "Trade buy Endpoint",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "txId": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "number"
+                    }
+                  },
+                  "required": ["txId", "price"]
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "txId": "eTYsPUIpfsoAOHA9ZVU7_N4GKQ4R8nZG",
+                      "price": 1908.23
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request if symbol is invalid"
+          }
+        },
+        "operationId": "trades-buy",
+        "description": "API to buy stocks",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "symbol": {
+                    "type": "string",
+                    "pattern": "^[A-Z]+$",
+                    "minLength": 2,
+                    "description": "Ticker Symbol"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Quantity to buy"
+                  }
+                },
+                "required": ["symbol", "quantity"]
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "symbol": "TCS",
+                    "quantity": 100
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/trades/sell": {
+      "post": {
+        "tags": ["smallcase"],
+        "summary": "Trade Sell endpoint",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "txId": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "number"
+                    }
+                  },
+                  "required": ["txId", "price"]
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "txId": "eTYsPUIpfsoAOHA9ZVU7_N4GKQ4R8nZG",
+                      "price": 1908.23
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request if symbol is invalid"
+          },
+          "412": {
+            "description": "If do not have sufficient stocs to sell"
+          }
+        },
+        "operationId": "trades-sell",
+        "description": "API to sell stocks",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "symbol": {
+                    "type": "string",
+                    "pattern": "^[A-Z]+$",
+                    "minLength": 2,
+                    "description": "Ticker Symbol"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Quantity to buy"
+                  }
+                },
+                "required": ["symbol", "quantity"]
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "symbol": "TCS",
+                    "quantity": 100
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/trades": {
+      "get": {
+        "summary": "Get All Trades",
+        "tags": ["smallcase"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-trades",
+        "description": "Fetch All Trades",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["smallcase"],
+        "summary": "Update a trade",
+        "operationId": "post-trades",
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "409": {
+            "description": "If updating trade with given params leaves in incorrect state"
+          },
+          "412": {
+            "description": "If trade does not exist"
+          }
+        },
+        "description": "Update Trade",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "txId": {
+                    "type": "string"
+                  },
+                  "tradeType": {
+                    "type": "string",
+                    "enum": ["buy", "sell"]
+                  },
+                  "txAmount": {
+                    "type": "number",
+                    "format": "float",
+                    "exclusiveMinimum": true,
+                    "minimum": 0
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                  }
+                },
+                "required": ["txId", "tradeType", "txAmount", "quantity"]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["smallcase"],
+        "summary": "Delete a trade",
+        "operationId": "delete-trades",
+        "responses": {
+          "202": {
+            "description": "Deleted"
+          },
+          "409": {
+            "description": "If deleting trade with given params leaves in incorrect state"
+          },
+          "412": {
+            "description": "If trade does not exist"
+          }
+        },
+        "description": "Delete Trade",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "txId": {
+                    "type": "string"
+                  }
+                },
+                "required": ["txId"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio": {
+      "get": {
+        "summary": "Get user portfolio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-portfolio",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get Portfolio",
+        "tags": ["smallcase"]
+      }
+    },
+    "/portfolio/returns": {
+      "get": {
+        "summary": "Get user returns",
+        "tags": ["smallcase"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "operationId": "get-portfolio-returns",
+        "description": "Get Returns",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
+}
