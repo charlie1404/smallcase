@@ -8,6 +8,7 @@ const envVarsSchema = Joi.object({
   .unknown()
   .required();
 
+// Validate if all env are present
 const { error, value: envVars } = envVarsSchema.validate(process.env);
 
 if (error) {

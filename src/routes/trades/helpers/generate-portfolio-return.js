@@ -1,3 +1,6 @@
+// idea is to iterate on updated trades to see if they can generate portfolio and returns,
+// if so return then, else throw error and bail out.
+
 function generatePortfolioAndReturnFromTrades(trades) {
   const portfolio = { avgBuyPrice: 0, availableQuantity: 0 };
   let returns = 0;
@@ -22,7 +25,8 @@ function generatePortfolioAndReturnFromTrades(trades) {
         break;
       }
       default:
-      // invalid trade, should never reach here
+        // invalid trade, should never reach here
+        throw new TypeError('Invalid trade type');
     }
 
     // validation after every trade

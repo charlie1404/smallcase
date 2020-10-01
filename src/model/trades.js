@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const generateRandomId = require('../utils/id-gen');
 
+// This model represents trade events,
+// these are write only one and read,
+// which is why on updating and removing a trade needs recomputaion of portfolio and returns
 const TradesSchema = new mongoose.Schema({
   _id: {
     type: String,

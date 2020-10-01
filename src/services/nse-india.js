@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const config = require('../config/index');
 
 /*
-  Could not find any public/free api which gives nse stock quotes,
+  Could not find any public/free api which gives nse stock quotes/prices,
   so using nse india's endpoints used by their webpages,
 
   Also as these need to be hit from browser only,
